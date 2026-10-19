@@ -1,0 +1,243 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#281442">
+
+  <title>Products | Cruz Heist Graphics Lab</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <link rel="stylesheet" href="../css/products.css">
+  <script type="module" src="../js/products.js"></script>
+</head>
+
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="products.html">
+        <span class="brand-mark"><i class="fa-solid fa-gift"></i></span>
+        <span>
+          <strong>CRUZ HEIST</strong>
+          <small>GRAPHICS LAB</small>
+        </span>
+      </a>
+
+      <div class="sidebar-label">WORKSPACE</div>
+
+      <nav class="navigation">
+        <a href="dashboard.html" class="nav-link">
+          <i class="fa-solid fa-house"></i><span>Dashboard</span>
+        </a>
+        <a href="products.html" class="nav-link active">
+          <i class="fa-solid fa-box-open"></i><span>Products</span>
+        </a>
+        <a href="sales.html" class="nav-link">
+          <i class="fa-solid fa-receipt"></i><span>Sales</span>
+        </a>
+        <a href="debts.html" class="nav-link">
+          <i class="fa-solid fa-wallet"></i><span>Debts & Payments</span>
+        </a>
+        <a href="reports.html" class="nav-link">
+          <i class="fa-solid fa-chart-pie"></i><span>Reports</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="sidebar-note">
+          <i class="fa-solid fa-heart"></i>
+          <p>Let's customize the world together.</p>
+        </div>
+        <button class="signout-button" id="signout-button">
+          <i class="fa-solid fa-right-from-bracket"></i>
+          Sign out
+        </button>
+      </div>
+    </aside>
+
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <main class="main-content">
+      <header class="topbar">
+        <button class="icon-button menu-button" id="menu-toggle"
+          aria-label="Open menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <div class="breadcrumb">
+          <span>Workspace</span>
+          <i class="fa-solid fa-chevron-right"></i>
+          <strong>Products</strong>
+        </div>
+
+        <div class="account-chip">
+          <span class="online-dot"></span>
+          <span id="account-email">Connecting...</span>
+        </div>
+      </header>
+
+      <section class="page-content">
+        <div class="page-heading">
+          <div>
+            <span class="eyebrow">YOUR BUSINESS CATALOGUE</span>
+            <h1>Products<span class="heading-period">.</span></h1>
+            <p>Keep track of the finished goods you sell and what each one costs you.</p>
+          </div>
+
+          <div class="heading-icon">
+            <i class="fa-solid fa-boxes-stacked"></i>
+          </div>
+        </div>
+
+        <div class="notice-bar">
+          <span class="notice-icon"><i class="fa-solid fa-cloud"></i></span>
+          <div>
+            <strong>Your catalogue, synced online</strong>
+            <p>Products are saved to your Firebase account and can be accessed on your other signed-in devices.</p>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card">
+            <div class="stat-icon purple"><i class="fa-solid fa-box"></i></div>
+            <div>
+              <span>Total products</span>
+              <strong id="total-products">0</strong>
+              <small>Saved in your catalogue</small>
+            </div>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-icon gold"><i class="fa-solid fa-coins"></i></div>
+            <div>
+              <span>Total buying cost</span>
+              <strong id="total-cost">UGX 0</strong>
+              <small>Combined cost of one of each listed product</small>
+            </div>
+          </article>
+        </div>
+
+        <section class="workspace-grid">
+          <article class="panel form-panel">
+            <div class="panel-heading">
+              <div>
+                <span class="eyebrow">PRODUCT DETAILS</span>
+                <h2 id="form-heading">Add a product</h2>
+              </div>
+              <span class="panel-heading-icon">
+                <i class="fa-solid fa-plus"></i>
+              </span>
+            </div>
+
+            <p class="panel-description">
+              Add a finished product you sell. Set its selling price whenever you record a sale.
+            </p>
+
+            <form id="product-form">
+              <label for="product-name">Product name</label>
+              <div class="input-wrap">
+                <i class="fa-solid fa-tag"></i>
+                <input id="product-name" name="productName"
+                  type="text" placeholder="e.g. Customized wall clock"
+                  maxlength="100" required>
+              </div>
+
+              <label for="buying-cost">Buying cost (UGX)</label>
+              <div class="input-wrap">
+                <i class="fa-solid fa-money-bill-wave"></i>
+                <input id="buying-cost" name="buyingCost"
+                  type="number" min="0" step="1"
+                  placeholder="e.g. 25000" required>
+              </div>
+              <small class="field-hint">Enter the cost you paid to obtain one unit of this product.</small>
+
+              <div class="form-actions">
+                <button type="submit" class="primary-button" id="product-submit">
+                  <i class="fa-solid fa-plus"></i>
+                  <span>Save product</span>
+                </button>
+                <button type="button" class="secondary-button hidden"
+                  id="cancel-edit">Cancel</button>
+              </div>
+            </form>
+
+            <div class="form-tip">
+              <i class="fa-solid fa-lightbulb"></i>
+              <span>Tip: You can change a product's buying cost later. Recorded sales should keep their original cost for accurate historical profit.</span>
+            </div>
+          </article>
+
+          <article class="panel catalogue-panel">
+            <div class="panel-heading catalogue-heading">
+              <div>
+                <span class="eyebrow">YOUR FINISHED GOODS</span>
+                <h2>Product catalogue</h2>
+                <p id="products-count-label">0 products saved</p>
+              </div>
+              <span class="count-pill" id="products-count">0</span>
+            </div>
+
+            <div class="toolbar">
+              <div class="search-wrap">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="search" id="product-search"
+                  placeholder="Search products..." aria-label="Search products">
+              </div>
+
+              <select id="product-sort" aria-label="Sort products">
+                <option value="newest">Newest first</option>
+                <option value="oldest">Oldest first</option>
+                <option value="name">Name A–Z</option>
+                <option value="cost-high">Highest cost</option>
+                <option value="cost-low">Lowest cost</option>
+              </select>
+            </div>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>PRODUCT</th>
+                    <th>BUYING COST</th>
+                    <th class="actions-heading">ACTIONS</th>
+                  </tr>
+                </thead>
+                <tbody id="products-table-body">
+                  <tr>
+                    <td colspan="3" class="loading-cell">
+                      <i class="fa-solid fa-circle-notch fa-spin"></i>
+                      Connecting to your catalogue...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="products-mobile-list" id="products-mobile-list"></div>
+
+            <div class="catalogue-footer">
+              <span><i class="fa-solid fa-shield-halved"></i> Private to your signed-in account</span>
+              <span id="sync-status">Connecting to cloud...</span>
+            </div>
+          </article>
+        </section>
+      </section>
+
+      <footer class="page-footer">
+        <span>© <span id="current-year"></span> Cruz Heist Graphics Lab</span>
+        <span>Let's customize the world together. <i class="fa-solid fa-heart"></i></span>
+      </footer>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

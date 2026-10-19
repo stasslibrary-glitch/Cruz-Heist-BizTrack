@@ -1,0 +1,287 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1c102b">
+  <title>Cruz Heist Business Hub</title>
+
+  <style>
+    :root {
+      --purple: #a879ff;
+      --gold: #f2d18a;
+      --pink: #f08acb;
+      --dark: #160d23;
+      --glass: rgba(255, 255, 255, 0.07);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 22px;
+      color: #fff;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background:
+        radial-gradient(ellipse at 15% 15%, #65358b 0%, transparent 42%),
+        radial-gradient(ellipse at 90% 85%, #752c68 0%, transparent 38%),
+        linear-gradient(145deg, #120b1d, #28143c 55%, #160d23);
+    }
+
+    .glow {
+      position: fixed;
+      width: 230px;
+      height: 230px;
+      border-radius: 50%;
+      background: var(--purple);
+      filter: blur(100px);
+      opacity: 0.19;
+      pointer-events: none;
+    }
+
+    .glow.one {
+      top: -80px;
+      left: -70px;
+    }
+
+    .glow.two {
+      bottom: -90px;
+      right: -60px;
+      background: var(--pink);
+    }
+
+    .welcome {
+      position: relative;
+      width: 100%;
+      max-width: 420px;
+      padding: 36px 25px 30px;
+      text-align: center;
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 30px;
+      background: var(--glass);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      box-shadow: 0 25px 80px rgba(0,0,0,.3);
+      animation: rise .8s ease both;
+    }
+
+    .logo {
+      width: 86px;
+      height: 86px;
+      margin: 0 auto 22px;
+      display: grid;
+      place-items: center;
+      border-radius: 27px;
+      border: 1px solid rgba(242,209,138,.65);
+      background: linear-gradient(145deg, #8d59d8, #49205e);
+      color: var(--gold);
+      font-family: Georgia, serif;
+      font-size: 30px;
+      font-weight: bold;
+      letter-spacing: -3px;
+      box-shadow: 0 0 38px rgba(168,121,255,.25);
+      transform: rotate(-5deg);
+    }
+
+    .eyebrow {
+      color: var(--gold);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(30px, 8vw, 40px);
+      line-height: 1.12;
+      letter-spacing: -.8px;
+    }
+
+    h1 span {
+      display: block;
+      margin-top: 7px;
+      color: var(--gold);
+      font-size: .77em;
+      font-weight: normal;
+    }
+
+    .description {
+      max-width: 290px;
+      margin: 17px auto 25px;
+      color: rgba(255,255,255,.72);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .features {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 26px;
+    }
+
+    .feature {
+      padding: 8px 11px;
+      border-radius: 30px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.045);
+      color: #eee3ff;
+      font-size: 11px;
+    }
+
+    .enter {
+      display: flex;
+      width: 100%;
+      min-height: 54px;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border: 0;
+      border-radius: 16px;
+      background: linear-gradient(100deg, #c09aff, #f0c9e8 55%, #f2d18a);
+      color: #271438;
+      font-size: 14px;
+      font-weight: 800;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 8px 28px rgba(168,121,255,.19);
+      transition: transform .2s, filter .2s;
+    }
+
+    .enter:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.07);
+    }
+
+    .enter:active {
+      transform: scale(.98);
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 19px;
+      color: rgba(255,255,255,.58);
+      font-size: 11px;
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #8ee6b2;
+      box-shadow: 0 0 10px #8ee6b2;
+      animation: pulse 1.5s infinite;
+    }
+
+    .footer {
+      margin-top: 27px;
+      color: rgba(255,255,255,.42);
+      font-size: 10px;
+      letter-spacing: .5px;
+      line-height: 1.8;
+    }
+
+    .footer strong {
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      50% { opacity: .4; box-shadow: 0 0 3px #8ee6b2; }
+    }
+
+    @media (max-width: 380px) {
+      .welcome { padding: 28px 18px 24px; }
+      .logo { width: 74px; height: 74px; font-size: 26px; }
+      .description { font-size: 13px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="glow one"></div>
+  <div class="glow two"></div>
+
+  <main class="welcome">
+    <div class="logo" aria-label="Cruz Heist monogram">CH</div>
+
+    <p class="eyebrow">Welcome to your workspace</p>
+
+    <h1>
+      Cruz Heist
+      <span>Business Hub</span>
+    </h1>
+
+    <p class="description">
+      Your business, beautifully organized.
+      Manage sales, track payments, monitor expenses
+      and understand your profits — all in one place.
+    </p>
+
+    <div class="features">
+      <span class="feature">✦ Sales</span>
+      <span class="feature">✦ Debts</span>
+      <span class="feature">✦ Expenses</span>
+      <span class="feature">✦ Profits</span>
+    </div>
+
+    <a class="enter" id="enterButton" href="html/login.html">
+      Enter Business Hub <span aria-hidden="true">→</span>
+    </a>
+
+    <div class="status">
+      <span class="dot"></span>
+      Your business workspace awaits
+    </div>
+
+    <div class="footer">
+      <strong>CRUZ HEIST GRAPHICS LAB</strong><br>
+      Lets customize the world together.
+    </div>
+  </main>
+
+  <script>
+    // Keep this page self-contained.
+    // The link below points to your existing login page.
+    const enterButton = document.getElementById("enterButton");
+
+    enterButton.addEventListener("click", function (event) {
+      // Use the existing relative path so GitHub Pages
+      // also works when the site is published as a project.
+      event.preventDefault();
+      window.location.href = new URL(
+        "html/login.html",
+        window.location.href
+      ).href;
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,278 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#241039">
+  <title>Sales | Cruz Heist Graphics Lab</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../css/sales.css">
+  <script type="module" src="../js/sales.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="dashboard.html">
+        <span class="brand-mark">CH</span>
+        <span>
+          <strong>CRUZ HEIST</strong>
+          <small>GRAPHICS LAB</small>
+        </span>
+      </a>
+
+      <div class="side-label">WORKSPACE</div>
+      <nav class="nav-links">
+        <a href="dashboard.html"><span>⌂</span> Dashboard</a>
+        <a href="products.html"><span>▦</span> Products</a>
+        <a class="active" href="sales.html"><span>↗</span> Sales</a>
+        <a href="debts.html"><span>◷</span> Debts & Payments</a>
+        <a href="reports.html"><span>▤</span> Reports</a>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="mini-brand">
+          <span>✦</span>
+          <p>Let's customize the world together.</p>
+        </div>
+        <button id="logout-btn" class="logout-btn" type="button">
+          ↪ Sign out
+        </button>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">CRUZ HEIST / TRANSACTIONS</p>
+          <h1>Sales <span class="gold-dot">.</span></h1>
+          <p class="page-subtitle">Every sale counts. Every detail matters.</p>
+        </div>
+        <div class="topbar-badge"><span></span> Cloud connected</div>
+      </header>
+
+      <section class="summary-grid">
+        <article class="summary-card">
+          <div class="summary-icon purple-icon">↗</div>
+          <p>Total sales value</p>
+          <h2 id="total-sales">UGX 0</h2>
+          <small>Value of all recorded sales</small>
+        </article>
+        <article class="summary-card">
+          <div class="summary-icon gold-icon">₵</div>
+          <p>Money collected</p>
+          <h2 id="total-collected">UGX 0</h2>
+          <small>Payments received so far</small>
+        </article>
+        <article class="summary-card">
+          <div class="summary-icon pink-icon">♡</div>
+          <p>Estimated profit</p>
+          <h2 id="total-profit">UGX 0</h2>
+          <small>Revenue minus product cost</small>
+        </article>
+        <article class="summary-card">
+          <div class="summary-icon orange-icon">◷</div>
+          <p>Outstanding balance</p>
+          <h2 id="total-balance">UGX 0</h2>
+          <small>Money still owed by customers</small>
+        </article>
+      </section>
+
+      <section class="workspace-grid">
+        <section class="panel sale-panel">
+          <div class="panel-heading">
+            <div>
+              <span class="section-kicker">NEW TRANSACTION</span>
+              <h2>Record a sale</h2>
+              <p>Enter the details below to save a transaction.</p>
+            </div>
+            <div class="heading-symbol">✦</div>
+          </div>
+
+          <div id="page-alert" class="alert" role="status" hidden></div>
+
+          <form id="sale-form">
+            <div class="form-grid">
+              <div class="field full-width">
+                <label for="product-select">Product <span>*</span></label>
+                <select id="product-select" required>
+                  <option value="">Loading your products...</option>
+                </select>
+                <small id="product-cost-hint" class="field-hint">
+                  Select a product to see its buying cost.
+                </small>
+              </div>
+
+              <div class="field">
+                <label for="sale-date">Sale date <span>*</span></label>
+                <input type="date" id="sale-date" required>
+              </div>
+
+              <div class="field">
+                <label for="customer-name">Customer name</label>
+                <input type="text" id="customer-name" maxlength="100"
+                       placeholder="e.g. Sarah Namukasa">
+              </div>
+
+              <div class="field">
+                <label for="quantity">Quantity sold <span>*</span></label>
+                <input type="number" id="quantity" min="1" step="1"
+                       value="1" required>
+                <small class="field-hint">Transaction quantity only; no stock tracking.</small>
+              </div>
+
+              <div class="field">
+                <label for="selling-price">Selling price per item (UGX) <span>*</span></label>
+                <input type="number" id="selling-price" min="0" step="1"
+                       placeholder="Enter selling price" required>
+              </div>
+
+              <div class="field">
+                <label for="amount-paid">Amount paid (UGX) <span>*</span></label>
+                <input type="number" id="amount-paid" min="0" step="1"
+                       value="0" required>
+                <small class="field-hint">Enter the money actually received.</small>
+              </div>
+
+              <div class="field">
+                <label for="payment-method">Payment method</label>
+                <select id="payment-method">
+                  <option value="Cash">Cash</option>
+                  <option value="Mobile Money">Mobile Money</option>
+                  <option value="Bank Transfer">Bank Transfer</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="calculation-card">
+              <div class="calculation-title">
+                <span>SALE BREAKDOWN</span>
+                <span class="live-pill"><i></i> Live calculation</span>
+              </div>
+              <div class="calculation-row">
+                <span>Sale total</span>
+                <strong id="preview-total">UGX 0</strong>
+              </div>
+              <div class="calculation-row">
+                <span>Total buying cost</span>
+                <strong id="preview-cost">UGX 0</strong>
+              </div>
+              <div class="calculation-row profit-row">
+                <span>Estimated profit</span>
+                <strong id="preview-profit">UGX 0</strong>
+              </div>
+              <div class="calculation-row balance-row">
+                <span>Remaining balance</span>
+                <strong id="preview-balance">UGX 0</strong>
+              </div>
+              <div class="payment-status" id="payment-status">
+                Select a product and enter the selling price.
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="reset" class="btn btn-secondary" id="reset-btn">
+                Clear form
+              </button>
+              <button type="submit" class="btn btn-primary" id="save-sale-btn">
+                <span>＋</span> Save sale
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <aside class="side-info">
+          <div class="tip-card">
+            <div class="tip-icon">✧</div>
+            <span class="section-kicker">A QUICK REMINDER</span>
+            <h3>Sell smart.<br><em>Know your profit.</em></h3>
+            <p>Set the actual selling price for each transaction. Your product's saved buying cost is used to calculate profit automatically.</p>
+            <div class="tip-divider"></div>
+            <div class="tip-stat">
+              <span>Profit formula</span>
+              <strong>Sales total − buying cost</strong>
+            </div>
+            <div class="tip-stat">
+              <span>Cash collected</span>
+              <strong>Amount actually paid</strong>
+            </div>
+          </div>
+
+          <div class="note-card">
+            <span class="note-icon">♡</span>
+            <div>
+              <strong>Payments & debts</strong>
+              <p>When a customer pays less than the sale total, the outstanding balance is calculated and recorded for your debt records.</p>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="panel history-panel">
+        <div class="history-heading">
+          <div>
+            <span class="section-kicker">YOUR TRANSACTION LOG</span>
+            <h2>Sales history</h2>
+            <p>Review previous sales and payment balances.</p>
+          </div>
+          <div class="history-tools">
+            <input type="search" id="sales-search"
+                   placeholder="Search product or customer..." aria-label="Search sales">
+            <select id="sales-filter" aria-label="Filter sales by payment status">
+              <option value="all">All payments</option>
+              <option value="paid">Fully paid</option>
+              <option value="partial">Part paid</option>
+              <option value="unpaid">Unpaid</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="sales-loading" class="empty-state">
+          <div class="empty-symbol">✦</div>
+          <h3>Loading sales...</h3>
+          <p>Your saved transactions will appear here.</p>
+        </div>
+
+        <div class="table-wrap" id="sales-table-wrap" hidden>
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Product / Customer</th>
+                <th>Qty</th>
+                <th>Sale total</th>
+                <th>Paid</th>
+                <th>Balance</th>
+                <th>Profit</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="sales-table-body"></tbody>
+          </table>
+        </div>
+
+        <div id="sales-mobile-list" class="mobile-sales-list" hidden></div>
+
+        <div id="sales-empty" class="empty-state" hidden>
+          <div class="empty-symbol">↗</div>
+          <h3>No sales found</h3>
+          <p>Record your first sale or adjust your search.</p>
+        </div>
+      </section>
+
+      <footer class="page-footer">
+        <span>CRUZ HEIST GRAPHICS LAB</span>
+        <span>Let's customize the world together. ✦</span>
+      </footer>
+    </main>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

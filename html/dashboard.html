@@ -1,0 +1,638 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | Cruz Heist Graphics Lab</title>
+
+    <meta name="description"
+          content="Cruz Heist Graphics Lab Sales Management System">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+
+<body>
+
+<div class="app-layout">
+
+    <!-- MOBILE OVERLAY -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+
+        <div class="brand">
+            <div class="brand-logo">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+            </div>
+
+            <div class="brand-text">
+                <h2>CRUZ HEIST</h2>
+                <span>GRAPHICS LAB</span>
+            </div>
+
+            <button class="sidebar-close" id="sidebar-close"
+                    aria-label="Close navigation">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <div class="sidebar-section">
+            <span class="section-label">WORKSPACE</span>
+
+            <nav class="sidebar-nav">
+
+                <a href="dashboard.html" class="nav-link active"
+                   aria-current="page">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Dashboard</span>
+                </a>
+
+                <a href="products.html" class="nav-link">
+                    <i class="fa-solid fa-box-open"></i>
+                    <span>Products</span>
+                </a>
+
+                <a href="sales.html" class="nav-link">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span>Sales</span>
+                </a>
+
+                <a href="debts.html" class="nav-link">
+                    <i class="fa-solid fa-hand-holding-dollar"></i>
+                    <span>Customer Debts</span>
+                </a>
+
+            
+
+            </nav>
+        </div>
+
+        <div class="sidebar-section">
+            <span class="section-label">FINANCE</span>
+
+            <nav class="sidebar-nav">
+
+                <a href="expenses.html" class="nav-link">
+                    <i class="fa-solid fa-receipt"></i>
+                    <span>Expenses</span>
+                </a>
+
+                <a href="profits.html" class="nav-link">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Profit Analysis</span>
+                </a>
+
+                <a href="reports.html" class="nav-link">
+                    <i class="fa-solid fa-file-invoice"></i>
+                    <span>Reports</span>
+                </a>
+
+            </nav>
+        </div>
+
+        <div class="sidebar-section">
+            <span class="section-label">SYSTEM</span>
+
+            <nav class="sidebar-nav">
+
+                <a href="settings.html" class="nav-link">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Settings</span>
+                </a>
+
+            </nav>
+        </div>
+
+        <div class="sidebar-bottom">
+            <div class="sidebar-promo">
+                <div class="promo-icon">
+                    <i class="fa-solid fa-gem"></i>
+                </div>
+
+                <h3>Customize the world.</h3>
+
+                <p>Every product tells a story.</p>
+
+                <span class="promo-tag">CRUZ HEIST</span>
+            </div>
+
+            <div class="sidebar-footer">
+                <span class="status-dot"></span>
+                <span>Sales management system</span>
+            </div>
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+
+            <div class="topbar-left">
+
+                <button class="menu-toggle" id="menu-toggle"
+                        aria-label="Open navigation">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+
+                <div class="breadcrumb">
+                    <span>Workspace</span>
+                    <i class="fa-solid fa-chevron-right"></i>
+                    <strong>Dashboard</strong>
+                </div>
+
+            </div>
+
+            <div class="topbar-right">
+
+                <div class="today-date">
+                    <i class="fa-regular fa-calendar"></i>
+                    <span id="current-date">Loading date...</span>
+                </div>
+
+                <div class="user-profile">
+                    <div class="user-avatar">CH</div>
+
+                    <div class="user-info">
+                        <strong>Ernest Cruz</strong>
+                        <span>CEO CHGL</span>
+                    </div>
+
+                </div>
+
+            </div>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+        </header>
+
+
+        <!-- DASHBOARD PAGE -->
+        <section class="dashboard-content">
+
+            <!-- WELCOME -->
+            <div class="welcome-section">
+
+                <div class="welcome-copy">
+                    <span class="eyebrow">
+                        <i class="fa-solid fa-sparkles"></i>
+                        YOUR BUSINESS AT A GLANCE
+                    </span>
+
+                    <h1>Welcome back, <span>Boss.</span></h1>
+
+                    <p>
+                        Here's how Cruz Heist Graphics Lab is performing.
+                        Let's make today count.
+                    </p>
+                </div>
+
+                <a href="sales.html" class="primary-btn">
+                    <i class="fa-solid fa-plus"></i>
+                    Record a Sale
+                </a>
+
+            </div>
+
+
+            <!-- DATE FILTER -->
+            <div class="dashboard-toolbar">
+
+                <div>
+                    <h2>Business Overview</h2>
+                    <p>Track your sales, cash flow and profitability.</p>
+                </div>
+
+                <div class="toolbar-actions">
+
+                    <label class="sr-only" for="period-filter">
+                        Dashboard reporting period
+                    </label>
+
+                    <select id="period-filter">
+                        <option value="today">Today</option>
+                        <option value="week">This Week</option>
+                        <option value="month" selected>This Month</option>
+                        <option value="year">This Year</option>
+                        <option value="all">All Time</option>
+                    </select>
+
+                    <button class="icon-btn" id="refresh-dashboard"
+                            aria-label="Refresh dashboard"
+                            title="Refresh dashboard">
+                        <i class="fa-solid fa-rotate"></i>
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- FINANCIAL SUMMARY CARDS -->
+            <div class="stats-grid">
+
+                <article class="stat-card revenue-card">
+
+                    <div class="stat-top">
+                        <span class="stat-label">Total Sales</span>
+
+                        <span class="stat-icon purple-icon">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                        </span>
+                    </div>
+
+                    <h3 class="stat-value" id="total-sales">
+                        UGX 0
+                    </h3>
+
+                    <p class="stat-description">
+                        <i class="fa-solid fa-chart-line"></i>
+                        Total value of recorded sales
+                    </p>
+
+                </article>
+
+
+                <article class="stat-card cash-card">
+
+                    <div class="stat-top">
+                        <span class="stat-label">Money Received</span>
+
+                        <span class="stat-icon green-icon">
+                            <i class="fa-solid fa-money-bill-wave"></i>
+                        </span>
+                    </div>
+
+                    <h3 class="stat-value" id="total-received">
+                        UGX 0
+                    </h3>
+
+                    <p class="stat-description">
+                        Payments actually collected
+                    </p>
+
+                </article>
+
+
+                <article class="stat-card debt-card">
+
+                    <div class="stat-top">
+                        <span class="stat-label">Outstanding Debts</span>
+
+                        <span class="stat-icon orange-icon">
+                            <i class="fa-solid fa-hand-holding-dollar"></i>
+                        </span>
+                    </div>
+
+                    <h3 class="stat-value" id="total-debts">
+                        UGX 0
+                    </h3>
+
+                    <p class="stat-description">
+                        Money customers still owe
+                    </p>
+
+                </article>
+
+
+                <article class="stat-card profit-card">
+
+                    <div class="stat-top">
+                        <span class="stat-label">Net Profit</span>
+
+                        <span class="stat-icon blue-icon">
+                            <i class="fa-solid fa-chart-pie"></i>
+                        </span>
+                    </div>
+
+                    <h3 class="stat-value" id="net-profit">
+                        UGX 0
+                    </h3>
+
+                    <p class="stat-description">
+                        After recorded business expenses
+                    </p>
+
+                </article>
+
+            </div>
+
+
+            <!-- SECONDARY SUMMARY -->
+            <div class="section-heading">
+                <div>
+                    <h2>Financial Snapshot</h2>
+                    <p>A closer look at your business finances.</p>
+                </div>
+            </div>
+
+            <div class="secondary-stats-grid">
+
+                <article class="mini-stat-card">
+
+                    <div class="mini-stat-icon">
+                        <i class="fa-solid fa-wallet"></i>
+                    </div>
+
+                    <div>
+                        <span>Cost of Goods Sold</span>
+                        <h3 id="total-cost">UGX 0</h3>
+                    </div>
+
+                </article>
+
+
+                <article class="mini-stat-card">
+
+                    <div class="mini-stat-icon expense-mini-icon">
+                        <i class="fa-solid fa-arrow-trend-down"></i>
+                    </div>
+
+                    <div>
+                        <span>Total Expenses</span>
+                        <h3 id="total-expenses">UGX 0</h3>
+                    </div>
+
+                </article>
+
+
+                <article class="mini-stat-card">
+
+                    <div class="mini-stat-icon customer-mini-icon">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+
+                    <div>
+                        <span>Total Customers</span>
+                        <h3 id="total-customers">0</h3>
+                    </div>
+
+                </article>
+
+
+                <article class="mini-stat-card">
+
+                    <div class="mini-stat-icon product-mini-icon">
+                        <i class="fa-solid fa-box"></i>
+                    </div>
+
+                    <div>
+                        <span>Registered Products</span>
+                        <h3 id="total-products">0</h3>
+                    </div>
+
+                </article>
+
+            </div>
+
+
+            <!-- RECENT ACTIVITY -->
+            <div class="dashboard-columns">
+
+                <section class="content-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <h2>Recent Sales</h2>
+                            <p>Your latest recorded transactions.</p>
+                        </div>
+
+                        <a href="sales.html" class="text-link">
+                            View all
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+
+                    </div>
+
+                    <div class="table-wrapper">
+
+                        <table class="data-table">
+
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Customer</th>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="recent-sales-body">
+
+                                <tr class="empty-row">
+                                    <td colspan="5">
+                                        <div class="empty-state">
+                                            <i class="fa-solid fa-receipt"></i>
+                                            <strong>No sales recorded yet</strong>
+                                            <span>
+                                                Your latest sales will appear here.
+                                            </span>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </section>
+
+
+                <!-- DEBT SUMMARY -->
+                <section class="content-panel debt-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <h2>Outstanding Debts</h2>
+                            <p>Customers with unpaid balances.</p>
+                        </div>
+
+                        <span class="panel-icon orange-icon">
+                            <i class="fa-solid fa-coins"></i>
+                        </span>
+
+                    </div>
+
+                    <div class="debt-summary">
+
+                        <span>Total to Collect</span>
+
+                        <h3 id="debt-summary-total">UGX 0</h3>
+
+                        <p>
+                            Keep track of payments to maintain healthy
+                            cash flow.
+                        </p>
+
+                    </div>
+
+                    <div id="recent-debts-list" class="recent-debts-list">
+
+                        <div class="empty-state compact-empty">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <strong>No debt records to display</strong>
+                            <span>Unpaid customer balances will appear here.</span>
+                        </div>
+
+                    </div>
+
+                    <a href="debts.html" class="secondary-btn">
+                        Manage Customer Debts
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+
+                </section>
+
+            </div>
+
+
+            <!-- QUICK ACTIONS -->
+            <section class="quick-actions-section">
+
+                <div class="section-heading">
+                    <div>
+                        <h2>Quick Actions</h2>
+                        <p>Get straight to what you need to do.</p>
+                    </div>
+                </div>
+
+                <div class="quick-actions-grid">
+
+                    <a href="products.html" class="quick-action-card">
+                        <span class="quick-action-icon purple-icon">
+                            <i class="fa-solid fa-box-open"></i>
+                        </span>
+
+                        <span class="quick-action-text">
+                            <strong>Add Product</strong>
+                            <small>Register a product and its price</small>
+                        </span>
+
+                        <i class="fa-solid fa-arrow-up-right-from-square action-arrow"></i>
+                    </a>
+
+
+                    <a href="sales.html" class="quick-action-card">
+                        <span class="quick-action-icon green-icon">
+                            <i class="fa-solid fa-cart-plus"></i>
+                        </span>
+
+                        <span class="quick-action-text">
+                            <strong>Record Sale</strong>
+                            <small>Enter a new customer transaction</small>
+                        </span>
+
+                        <i class="fa-solid fa-arrow-up-right-from-square action-arrow"></i>
+                    </a>
+
+
+                    <a href="debts.html" class="quick-action-card">
+                        <span class="quick-action-icon orange-icon">
+                            <i class="fa-solid fa-hand-holding-dollar"></i>
+                        </span>
+
+                        <span class="quick-action-text">
+                            <strong>Record Payment</strong>
+                            <small>Update an outstanding debt</small>
+                        </span>
+
+                        <i class="fa-solid fa-arrow-up-right-from-square action-arrow"></i>
+                    </a>
+
+
+                    <a href="expenses.html" class="quick-action-card">
+                        <span class="quick-action-icon blue-icon">
+                            <i class="fa-solid fa-file-invoice-dollar"></i>
+                        </span>
+
+                        <span class="quick-action-text">
+                            <strong>Add Expense</strong>
+                            <small>Record a business cost</small>
+                        </span>
+
+                        <i class="fa-solid fa-arrow-up-right-from-square action-arrow"></i>
+                    </a>
+
+
+                    <a href="reports.html" class="quick-action-card">
+                        <span class="quick-action-icon purple-icon">
+                            <i class="fa-solid fa-chart-column"></i>
+                        </span>
+
+                        <span class="quick-action-text">
+                            <strong>View Reports</strong>
+                            <small>Review business performance</small>
+                        </span>
+
+                        <i class="fa-solid fa-arrow-up-right-from-square action-arrow"></i>
+                    </a>
+
+
+                    <a href="profits.html" class="quick-action-card">
+                        <span class="quick-action-icon green-icon">
+                            <i class="fa-solid fa-sack-dollar"></i>
+                        </span>
+
+                        <span class="quick-action-text">
+                            <strong>Analyse Profits</strong>
+                            <small>Understand your actual earnings</small>
+                        </span>
+
+                        <i class="fa-solid fa-arrow-up-right-from-square action-arrow"></i>
+                    </a>
+
+                </div>
+
+            </section>
+
+
+            <!-- FOOTER -->
+            <footer class="dashboard-footer">
+
+                <div class="footer-brand">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <strong>CRUZ HEIST GRAPHICS LAB</strong>
+                </div>
+
+                <p>
+                    Let's customize the world together.
+                </p>
+
+                <span>
+                    &copy; <span id="current-year"></span>
+                    Cruz Heist Graphics Lab. All rights reserved.
+                </span>
+
+            </footer>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- DASHBOARD JAVASCRIPT -->
+<script type="module" src="../js/dashboard.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,305 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#241039">
+  <title>Debts & Payments | Cruz Heist Graphics Lab</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../css/debts.css">
+  <script type="module" src="../js/debts.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="dashboard.html">
+        <span class="brand-mark">CH</span>
+        <span>
+          <strong>CRUZ HEIST</strong>
+          <small>GRAPHICS LAB</small>
+        </span>
+      </a>
+
+      <div class="side-label">WORKSPACE</div>
+      <nav class="nav-links">
+        <a href="dashboard.html"><span>⌂</span> Dashboard</a>
+        <a href="products.html"><span>▦</span> Products</a>
+        <a href="sales.html"><span>↗</span> Sales</a>
+        <a class="active" href="debts.html"><span>◷</span> Debts & Payments</a>
+        <a href="reports.html"><span>▤</span> Reports</a>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="mini-brand">
+          <span>✦</span>
+          <p>Let's customize the world together.</p>
+        </div>
+        <button id="logout-btn" class="logout-btn" type="button">
+          ↪ Sign out
+        </button>
+      </div>
+    </aside>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">CRUZ HEIST / ACCOUNT MANAGEMENT</p>
+          <h1>Debts <span class="gold-dot">&</span> Payments</h1>
+          <p class="page-subtitle">Track every balance. Record every payment.</p>
+        </div>
+        <div class="topbar-badge"><span></span> Cloud connected</div>
+      </header>
+
+      <section class="summary-grid">
+        <article class="summary-card">
+          <div class="summary-icon purple-icon">◷</div>
+          <p>Outstanding debt</p>
+          <h2 id="summary-outstanding">UGX 0</h2>
+          <small>Amount customers still owe</small>
+        </article>
+        <article class="summary-card">
+          <div class="summary-icon gold-icon">↙</div>
+          <p>Payments collected</p>
+          <h2 id="summary-collected">UGX 0</h2>
+          <small>Payments recorded on these accounts</small>
+        </article>
+        <article class="summary-card">
+          <div class="summary-icon pink-icon">♙</div>
+          <p>Customers owing</p>
+          <h2 id="summary-customers">0</h2>
+          <small>Accounts with an unpaid balance</small>
+        </article>
+        <article class="summary-card">
+          <div class="summary-icon orange-icon">▤</div>
+          <p>Debt accounts</p>
+          <h2 id="summary-accounts">0</h2>
+          <small>Accounts shown on this page</small>
+        </article>
+      </section>
+
+      <section class="content-grid">
+        <section class="panel form-panel">
+          <div class="panel-heading">
+            <div>
+              <span class="section-kicker">NEW ACCOUNT</span>
+              <h2>Record a debt</h2>
+              <p>Use this for a debt that wasn't recorded through Sales.</p>
+            </div>
+            <span class="heading-symbol">✦</span>
+          </div>
+
+          <div id="page-alert" class="alert" role="status" hidden></div>
+
+          <form id="debt-form">
+            <div class="field">
+              <label for="debt-date">Date <span>*</span></label>
+              <input type="date" id="debt-date" required>
+            </div>
+
+            <div class="field">
+              <label for="debt-customer">Customer name <span>*</span></label>
+              <input type="text" id="debt-customer" maxlength="100"
+                     placeholder="Enter customer name" required>
+            </div>
+
+            <div class="field">
+              <label for="debt-product">Product or service <span>*</span></label>
+              <input type="text" id="debt-product" maxlength="150"
+                     placeholder="e.g. Customized wall clock" required>
+            </div>
+
+            <div class="field-row">
+              <div class="field">
+                <label for="debt-total">Total amount (UGX) <span>*</span></label>
+                <input type="number" id="debt-total" min="1" step="1"
+                       placeholder="0" required>
+              </div>
+              <div class="field">
+                <label for="debt-paid">Already paid (UGX) <span>*</span></label>
+                <input type="number" id="debt-paid" min="0" step="1"
+                       value="0" required>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="debt-notes">Notes (optional)</label>
+              <input type="text" id="debt-notes" maxlength="300"
+                     placeholder="Any useful details">
+            </div>
+
+            <div class="balance-preview">
+              <span>Remaining balance</span>
+              <strong id="debt-balance-preview">UGX 0</strong>
+            </div>
+
+            <button id="save-debt-btn" class="btn btn-primary" type="submit">
+              <span>＋</span> Save debt account
+            </button>
+          </form>
+        </section>
+
+        <section class="panel overview-panel">
+          <div class="panel-heading">
+            <div>
+              <span class="section-kicker">PAYMENT OVERVIEW</span>
+              <h2>Keep accounts clear</h2>
+              <p>Know who has paid and who still owes.</p>
+            </div>
+          </div>
+
+          <div class="overview-hero">
+            <span class="overview-icon">♡</span>
+            <p>Outstanding across your accounts</p>
+            <h3 id="overview-balance">UGX 0</h3>
+            <span class="overview-caption">Updates when payments are recorded</span>
+          </div>
+
+          <div class="overview-tip">
+            <span class="tip-symbol">✧</span>
+            <div>
+              <strong>Record payments immediately</strong>
+              <p>When a customer pays part of their debt, record only the amount received. The remaining balance will be recalculated automatically.</p>
+            </div>
+          </div>
+
+          <div class="overview-tip">
+            <span class="tip-symbol gold-text">₵</span>
+            <div>
+              <strong>Keep sales and debts connected</strong>
+              <p>Unpaid sales appear here automatically. Don't create a second debt account for the same sale.</p>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <section class="panel records-panel">
+        <div class="records-heading">
+          <div>
+            <span class="section-kicker">CUSTOMER LEDGER</span>
+            <h2>Debt accounts</h2>
+            <p>Sales with unpaid balances and separately recorded debts.</p>
+          </div>
+
+          <div class="record-filters">
+            <input type="search" id="debt-search"
+                   placeholder="Search customer or product..."
+                   aria-label="Search debt accounts">
+            <select id="debt-filter" aria-label="Filter debt accounts">
+              <option value="owing">Outstanding only</option>
+              <option value="all">All accounts</option>
+              <option value="paid">Fully paid</option>
+              <option value="partial">Part paid</option>
+              <option value="unpaid">Unpaid</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="records-loading" class="empty-state">
+          <div class="empty-symbol">✦</div>
+          <h3>Loading accounts...</h3>
+          <p>Your saved debt records will appear here.</p>
+        </div>
+
+        <div id="debt-table-wrap" class="table-wrap" hidden>
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Customer</th>
+                <th>Product / Service</th>
+                <th>Total</th>
+                <th>Paid</th>
+                <th>Balance</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="debt-table-body"></tbody>
+          </table>
+        </div>
+
+        <div id="debt-mobile-list" class="mobile-debt-list" hidden></div>
+
+        <div id="records-empty" class="empty-state" hidden>
+          <div class="empty-symbol">♡</div>
+          <h3>No debt accounts found</h3>
+          <p>Try another filter or record a new debt account.</p>
+        </div>
+      </section>
+
+      <footer class="page-footer">
+        <span>CRUZ HEIST GRAPHICS LAB</span>
+        <span>Let's customize the world together. ✦</span>
+      </footer>
+    </main>
+  </div>
+
+  <dialog id="payment-dialog" class="payment-dialog">
+    <form id="payment-form">
+      <div class="dialog-heading">
+        <div>
+          <span class="section-kicker">UPDATE ACCOUNT</span>
+          <h2>Record a payment</h2>
+        </div>
+        <button id="close-payment" class="close-dialog" type="button"
+                aria-label="Close dialog">×</button>
+      </div>
+
+      <p id="payment-account-name" class="payment-account-name"></p>
+
+      <div class="dialog-balance">
+        <span>Outstanding balance</span>
+        <strong id="payment-outstanding">UGX 0</strong>
+      </div>
+
+      <input type="hidden" id="payment-account-id">
+      <input type="hidden" id="payment-account-source">
+
+      <div class="field">
+        <label for="payment-date">Payment date <span>*</span></label>
+        <input type="date" id="payment-date" required>
+      </div>
+
+      <div class="field">
+        <label for="payment-amount">Amount received (UGX) <span>*</span></label>
+        <input type="number" id="payment-amount" min="1" step="1"
+               placeholder="Enter amount received" required>
+      </div>
+
+      <div class="field">
+        <label for="payment-method">Payment method</label>
+        <select id="payment-method">
+          <option value="Cash">Cash</option>
+          <option value="Mobile Money">Mobile Money</option>
+          <option value="Bank Transfer">Bank Transfer</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="payment-note">Payment note (optional)</label>
+        <input type="text" id="payment-note" maxlength="200"
+               placeholder="e.g. First instalment">
+      </div>
+
+      <div id="payment-alert" class="alert" role="status" hidden></div>
+
+      <div class="dialog-actions">
+        <button id="cancel-payment" type="button" class="btn btn-secondary">
+          Cancel
+        </button>
+        <button id="submit-payment" type="submit" class="btn btn-primary">
+          Save payment
+        </button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

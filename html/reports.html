@@ -1,0 +1,336 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#241039">
+  <title>Reports & Analytics | Cruz Heist Graphics Lab</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/reports.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/all.min.js" defer></script>
+  <script type="module" src="../js/reports.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="dashboard.html">
+        <span class="brand-mark"><i class="fa-solid fa-crown"></i></span>
+        <span>Cruz Heist<small>GRAPHICS LAB</small></span>
+      </a>
+
+      <p class="nav-label">WORKSPACE</p>
+      <nav class="navigation">
+        <a href="dashboard.html"><i class="fa-solid fa-house"></i> Dashboard</a>
+        <a href="products.html"><i class="fa-solid fa-box"></i> Products</a>
+        <a href="sales.html"><i class="fa-solid fa-cart-shopping"></i> Sales</a>
+        <a href="debts.html"><i class="fa-solid fa-hand-holding-dollar"></i> Debts & Payments</a>
+        <a class="active" href="reports.html"><i class="fa-solid fa-chart-pie"></i> Reports</a>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="sidebar-note">
+          <i class="fa-solid fa-chart-line"></i>
+          <strong>Know your numbers.</strong>
+          <span>Make every sale count.</span>
+        </div>
+        <button id="logout-btn" class="logout-btn">
+          <i class="fa-solid fa-right-from-bracket"></i> Sign out
+        </button>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <span class="eyebrow">BUSINESS INTELLIGENCE</span>
+          <h1>Reports <span>& Analytics</span></h1>
+          <p>Understand your sales, profit, collections and debts.</p>
+        </div>
+        <button id="export-btn" class="primary-btn">
+          <i class="fa-solid fa-download"></i> Export CSV
+        </button>
+      </header>
+
+      <section class="filter-panel">
+        <div class="filter-heading">
+          <div>
+            <h2>Reporting period</h2>
+            <p>Choose which dates you want to analyse.</p>
+          </div>
+          <span id="sync-status" class="sync-status">
+            <span class="status-dot"></span> Connecting to Firebase
+          </span>
+        </div>
+
+        <div class="filters">
+          <label>
+            Quick range
+            <select id="date-preset">
+              <option value="all">All time</option>
+              <option value="today">Today</option>
+              <option value="7">Last 7 days</option>
+              <option value="30">Last 30 days</option>
+              <option value="month">This month</option>
+              <option value="year">This year</option>
+              <option value="custom">Custom range</option>
+            </select>
+          </label>
+          <label>
+            From
+            <input id="date-from" type="date">
+          </label>
+          <label>
+            To
+            <input id="date-to" type="date">
+          </label>
+          <button id="apply-filter" class="secondary-btn">Apply dates</button>
+        </div>
+        <p id="report-message" class="report-message" aria-live="polite"></p>
+      </section>
+
+      <section class="section-heading">
+        <div>
+          <span class="eyebrow">FINANCIAL SNAPSHOT</span>
+          <h2>Your business at a glance</h2>
+        </div>
+        <span id="period-label" class="period-label">All time</span>
+      </section>
+
+      <section class="metric-grid">
+        <article class="metric-card purple-card">
+          <div class="metric-top"><span>Total sales</span><i class="fa-solid fa-receipt"></i></div>
+          <strong id="metric-sales">UGX 0</strong>
+          <small id="metric-sales-count">0 recorded sales</small>
+        </article>
+        <article class="metric-card green-card">
+          <div class="metric-top"><span>Gross profit</span><i class="fa-solid fa-arrow-trend-up"></i></div>
+          <strong id="metric-profit">UGX 0</strong>
+          <small>Sales minus recorded product costs</small>
+        </article>
+        <article class="metric-card blue-card">
+          <div class="metric-top"><span>Money collected</span><i class="fa-solid fa-wallet"></i></div>
+          <strong id="metric-collected">UGX 0</strong>
+          <small>Payments received from sales in period</small>
+        </article>
+        <article class="metric-card gold-card">
+          <div class="metric-top"><span>Outstanding debts</span><i class="fa-solid fa-hand-holding-dollar"></i></div>
+          <strong id="metric-debts">UGX 0</strong>
+          <small id="metric-debt-count">0 accounts owing</small>
+        </article>
+      </section>
+
+      <section class="secondary-grid">
+        <article class="panel">
+          <div class="panel-heading">
+            <div><span class="eyebrow">PERFORMANCE</span><h2>Sales & gross profit</h2></div>
+            <span class="panel-icon"><i class="fa-solid fa-chart-column"></i></span>
+          </div>
+          <div class="chart-legend">
+            <span><i class="legend-sales"></i> Sales</span>
+            <span><i class="legend-profit"></i> Gross profit</span>
+          </div>
+          <div id="sales-chart" class="bar-chart">
+            <p class="empty-state">Your chart will appear when records load.</p>
+          </div>
+          <p class="chart-footnote">Grouped by month for the selected period.</p>
+        </article>
+
+        <article class="panel">
+          <div class="panel-heading">
+            <div><span class="eyebrow">CASH FLOW</span><h2>Collections overview</h2></div>
+            <span class="panel-icon"><i class="fa-solid fa-coins"></i></span>
+          </div>
+          <div class="collection-row">
+            <span>Payments received from sales</span>
+            <strong id="cash-sales">UGX 0</strong>
+          </div>
+          <div class="collection-row">
+            <span>Payments received on manual debts</span>
+            <strong id="cash-debts">UGX 0</strong>
+          </div>
+          <div class="collection-row total-row">
+            <span>Total recorded collections</span>
+            <strong id="cash-total">UGX 0</strong>
+          </div>
+          <div class="collection-row">
+            <span>Unpaid sales balances</span>
+            <strong id="unpaid-sales">UGX 0</strong>
+          </div>
+          <div class="collection-row">
+            <span>Manual debts outstanding</span>
+            <strong id="unpaid-manual">UGX 0</strong>
+          </div>
+          <p class="chart-footnote">Collections use payment records where available. Debt totals show current balances.</p>
+        </article>
+      </section>
+
+      <section class="panel product-panel">
+        <div class="panel-heading">
+          <div><span class="eyebrow">WHAT SELLS BEST?</span><h2>Product performance</h2></div>
+          <span class="panel-icon"><i class="fa-solid fa-box-open"></i></span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Units / sales</th>
+                <th>Total sales</th>
+                <th>Recorded cost</th>
+                <th>Gross profit</th>
+              </tr>
+            </thead>
+            <tbody id="product-report-body">
+              <tr><td colspan="5" class="empty-state">Loading product performance...</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="product-report-mobile" class="mobile-product-list"></div>
+      </section>
+
+      <footer class="page-footer">
+        <span>CRUZ HEIST GRAPHICS LAB</span>
+        <span>Let’s customize the world together.</span>
+      </footer>
+    </main>
+  </div>
+  
+<section class="finance-grid">
+  <!-- EXPENSES -->
+  <article class="panel finance-panel">
+    <div class="panel-heading">
+      <div>
+        <span class="eyebrow">MONEY GOING OUT</span>
+        <h2>Business Expenses</h2>
+      </div>
+      <span class="panel-icon">
+        <i class="fa-solid fa-receipt"></i>
+      </span>
+    </div>
+
+    <div class="finance-highlight expense-highlight">
+      <span>Expenses in selected period</span>
+      <strong id="expense-period-total">UGX 0</strong>
+    </div>
+
+    <form id="expense-form" class="finance-form">
+      <label>
+        Date
+        <input type="date" id="expense-date" required>
+      </label>
+
+      <label>
+        Expense category
+        <select id="expense-category" required>
+          <option value="Transport">Transport</option>
+          <option value="Allowances">Allowances</option>
+          <option value="Delivery">Delivery</option>
+          <option value="Materials">Materials & supplies</option>
+          <option value="Utilities">Utilities</option>
+          <option value="Marketing">Marketing</option>
+          <option value="Repairs">Repairs & maintenance</option>
+          <option value="Other">Other</option>
+        </select>
+      </label>
+
+      <label class="full-field">
+        Description
+        <input id="expense-description" type="text"
+          placeholder="e.g. Transport to deliver customer order" required>
+      </label>
+
+      <label class="full-field">
+        Amount (UGX)
+        <input id="expense-amount" type="number"
+          min="1" step="1" placeholder="Enter amount" required>
+      </label>
+
+      <button type="submit" class="primary-btn full-field" id="save-expense">
+        <i class="fa-solid fa-plus"></i> Record Expense
+      </button>
+    </form>
+
+    <div class="finance-list-heading">
+      <h3>Recent expenses</h3>
+      <span>Selected period</span>
+    </div>
+    <div id="expense-history" class="finance-history">
+      <p class="empty-state">Loading expenses...</p>
+    </div>
+  </article>
+
+  <!-- SAVINGS -->
+  <article class="panel finance-panel">
+    <div class="panel-heading">
+      <div>
+        <span class="eyebrow">BUILDING THE BUSINESS</span>
+        <h2>Business Savings</h2>
+      </div>
+      <span class="panel-icon savings-icon">
+        <i class="fa-solid fa-piggy-bank"></i>
+      </span>
+    </div>
+
+    <div class="savings-balance">
+      <span>Current savings balance</span>
+      <strong id="savings-current-balance">UGX 0</strong>
+      <small>All recorded deposits minus withdrawals</small>
+    </div>
+
+    <div class="savings-mini-grid">
+      <div>
+        <span>Deposits in period</span>
+        <strong id="savings-period-deposits">UGX 0</strong>
+      </div>
+      <div>
+        <span>Withdrawals in period</span>
+        <strong id="savings-period-withdrawals">UGX 0</strong>
+      </div>
+    </div>
+
+    <form id="savings-form" class="finance-form">
+      <label>
+        Transaction date
+        <input type="date" id="savings-date" required>
+      </label>
+
+      <label>
+        Transaction type
+        <select id="savings-type" required>
+          <option value="deposit">Add to savings</option>
+          <option value="withdrawal">Withdraw from savings</option>
+        </select>
+      </label>
+
+      <label class="full-field">
+        Amount (UGX)
+        <input id="savings-amount" type="number"
+          min="1" step="1" placeholder="Enter amount" required>
+      </label>
+
+      <label class="full-field">
+        Note
+        <input id="savings-note" type="text"
+          placeholder="e.g. 10% of this week's profit" required>
+      </label>
+
+      <button type="submit" class="primary-btn full-field" id="save-savings">
+        <i class="fa-solid fa-piggy-bank"></i> Save Transaction
+      </button>
+    </form>
+
+    <div class="finance-list-heading">
+      <h3>Savings history</h3>
+      <span>Selected period</span>
+    </div>
+    <div id="savings-history" class="finance-history">
+      <p class="empty-state">Loading savings...</p>
+    </div>
+  </article>
+</section>
+
+</body>
+</html>

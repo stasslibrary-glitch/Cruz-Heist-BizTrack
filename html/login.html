@@ -1,0 +1,165 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#29143f">
+
+  <title>Sign In | Cruz Heist Graphics Lab</title>
+  <meta name="description" content="Secure sign in to the Cruz Heist Graphics Lab business workspace.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <link rel="stylesheet" href="../css/login.css">
+  <script type="module" src="../js/login.js"></script>
+</head>
+
+<body>
+  <main class="login-page">
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+
+    <section class="login-layout">
+      <aside class="brand-panel">
+        <a class="brand" href="login.html" aria-label="Cruz Heist home">
+          <span class="brand-icon"><i class="fa-solid fa-gift"></i></span>
+          <span class="brand-name">
+            <strong>CRUZ HEIST</strong>
+            <small>GRAPHICS LAB</small>
+          </span>
+        </a>
+
+        <div class="brand-content">
+          <span class="brand-kicker">
+            <span></span> YOUR BUSINESS. YOUR VISION.
+          </span>
+
+          <h1>Make every<br>detail <em>count.</em></h1>
+
+          <p>
+            Your creative business, organised in one beautiful place.
+            Manage your products, sales, payments and business performance
+            with confidence.
+          </p>
+
+          <div class="feature-list">
+            <div class="feature">
+              <span class="feature-icon"><i class="fa-solid fa-box-open"></i></span>
+              <div>
+                <strong>Product catalogue</strong>
+                <small>Keep your finished goods organised.</small>
+              </div>
+            </div>
+
+            <div class="feature">
+              <span class="feature-icon"><i class="fa-solid fa-chart-line"></i></span>
+              <div>
+                <strong>Business insights</strong>
+                <small>Keep an eye on sales and profits.</small>
+              </div>
+            </div>
+
+            <div class="feature">
+              <span class="feature-icon"><i class="fa-solid fa-cloud"></i></span>
+              <div>
+                <strong>Connected workspace</strong>
+                <small>Access your saved data across devices.</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="brand-footer">
+          <span>LET'S CUSTOMIZE THE WORLD TOGETHER.</span>
+          <i class="fa-solid fa-heart"></i>
+        </div>
+      </aside>
+
+      <section class="form-panel">
+        <div class="mobile-brand">
+          <span class="brand-icon"><i class="fa-solid fa-gift"></i></span>
+          <span class="brand-name">
+            <strong>CRUZ HEIST</strong>
+            <small>GRAPHICS LAB</small>
+          </span>
+        </div>
+
+        <div class="form-topline">
+          <span class="secure-label">
+            <i class="fa-solid fa-shield-halved"></i>
+            SECURE BUSINESS ACCESS
+          </span>
+        </div>
+
+        <div class="form-heading">
+          <span class="eyebrow" id="form-eyebrow">WELCOME BACK</span>
+          <h2 id="form-title">Good to see you<span>.</span></h2>
+          <p id="form-subtitle">Sign in to continue to your business workspace.</p>
+        </div>
+
+        <div class="auth-message" id="auth-message" role="alert" aria-live="polite" hidden>
+          <i class="fa-solid fa-circle-exclamation"></i>
+          <span id="auth-message-text"></span>
+        </div>
+
+        <form id="login-form">
+          <label for="email">Email address</label>
+          <div class="field">
+            <i class="fa-regular fa-envelope"></i>
+            <input id="email" name="email" type="email"
+              placeholder="you@example.com" autocomplete="email" required>
+          </div>
+
+          <div class="password-label-row">
+            <label for="password">Password</label>
+            <button type="button" class="text-button" id="forgot-password">
+              Forgot password?
+            </button>
+          </div>
+
+          <div class="field">
+            <i class="fa-solid fa-lock"></i>
+            <input id="password" name="password" type="password"
+              placeholder="Enter your password"
+              autocomplete="current-password" minlength="6" required>
+            <button type="button" class="password-toggle" id="toggle-password"
+              aria-label="Show password" title="Show password">
+              <i class="fa-regular fa-eye"></i>
+            </button>
+          </div>
+
+          <button class="submit-button" id="submit-button" type="submit">
+            <span id="submit-label">Sign in to workspace</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </form>
+
+        <div class="divider"><span>YOUR CREATIVE WORKSPACE</span></div>
+
+        <div class="mode-switch">
+          <p id="mode-question">New to your workspace?</p>
+          <button type="button" class="create-account" id="toggle-mode">
+            Create an account <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+
+        <p class="privacy-note">
+          <i class="fa-solid fa-lock"></i>
+          Your account is protected by Firebase Authentication.
+        </p>
+
+        <p class="copyright">
+          © <span id="current-year"></span> Cruz Heist Graphics Lab
+        </p>
+      </section>
+    </section>
+  </main>
+</body>
+</html>

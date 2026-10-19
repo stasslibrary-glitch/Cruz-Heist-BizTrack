@@ -1,0 +1,205 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#7138a6">
+    <title>Expenses | Cruz Heist Graphics Lab</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/expenses.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+<div class="expenses-page">
+
+    <header class="topbar">
+        <a class="brand" href="dashboard.html">
+            <span class="brand-icon"><i class="fa-solid fa-gem"></i></span>
+            <span>
+                <strong>Cruz Heist</strong>
+                <small>GRAPHICS LAB</small>
+            </span>
+        </a>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <div class="topbar-actions">
+            <span class="sync-indicator" id="sync-status">
+                <i class="fa-solid fa-circle-notch fa-spin"></i>
+                Connecting
+            </span>
+            <button class="logout-btn" id="logout-btn" type="button">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="page-content">
+
+        <a class="back-link" href="dashboard.html">
+            <i class="fa-solid fa-arrow-left"></i> Back to dashboard
+        </a>
+
+        <section class="hero">
+            <div class="hero-copy">
+                <span class="eyebrow"><i class="fa-solid fa-sparkles"></i> BUSINESS FINANCES</span>
+                <h1>Expenses <span>& spending.</span></h1>
+                <p>Keep track of the money your business spends, one record at a time.</p>
+            </div>
+            <div class="hero-art"><i class="fa-solid fa-wallet"></i></div>
+        </section>
+
+        <div class="page-alert" id="page-alert" role="status" hidden></div>
+
+        <section class="summary-grid">
+            <article class="summary-card total-card">
+                <div class="summary-top">
+                    <span>Total expenses</span>
+                    <span class="summary-icon"><i class="fa-solid fa-receipt"></i></span>
+                </div>
+                <h2 id="total-expenses">UGX 0</h2>
+                <p>All recorded business expenses</p>
+            </article>
+
+            <article class="summary-card period-card">
+                <div class="summary-top">
+                    <span>This month</span>
+                    <span class="summary-icon"><i class="fa-solid fa-calendar-days"></i></span>
+                </div>
+                <h2 id="month-expenses">UGX 0</h2>
+                <p>Expenses dated this month</p>
+            </article>
+
+            <article class="summary-card count-card">
+                <div class="summary-top">
+                    <span>Records</span>
+                    <span class="summary-icon"><i class="fa-solid fa-list-check"></i></span>
+                </div>
+                <h2 id="expense-count">0</h2>
+                <p>Total expense entries</p>
+            </article>
+        </section>
+
+        <section class="main-grid">
+
+            <section class="panel form-panel">
+                <div class="panel-heading">
+                    <div>
+                        <span class="section-kicker">NEW RECORD</span>
+                        <h2>Add an expense ✨</h2>
+                        <p>Enter the details of money spent.</p>
+                    </div>
+                    <span class="heading-icon"><i class="fa-solid fa-pen-to-square"></i></span>
+                </div>
+
+                <form id="expense-form">
+                    <label for="expense-date">Date</label>
+                    <input id="expense-date" type="date" required>
+
+                    <label for="expense-category">Category</label>
+                    <select id="expense-category" required>
+                        <option value="">Choose a category</option>
+                        <option value="Transport">Transport</option>
+                        <option value="Packaging">Packaging</option>
+                        <option value="Communication">Airtime & internet</option>
+                        <option value="Labour">Labour</option>
+                        <option value="Other">Other</option>
+                    </select>
+
+                    <label for="expense-description">Description</label>
+                    <input id="expense-description" type="text"
+                           maxlength="180"
+                           placeholder="e.g. Transport to deliver a mug"
+                           required>
+
+                    <label for="expense-amount">Amount (UGX)</label>
+                    <input id="expense-amount" type="number"
+                           min="1" step="1"
+                           placeholder="e.g. 15000" required>
+
+                    <button class="save-btn" id="save-expense" type="submit">
+                        <i class="fa-solid fa-plus"></i>
+                        Save expense
+                    </button>
+                </form>
+
+                <div class="form-note">
+                    <i class="fa-solid fa-shield-heart"></i>
+                    Your expense records are saved to your private business account.
+                </div>
+            </section>
+
+            <section class="panel history-panel">
+                <div class="panel-heading history-heading">
+                    <div>
+                        <span class="section-kicker">YOUR SPENDING</span>
+                        <h2>Expense history</h2>
+                        <p>Search and review your business costs.</p>
+                    </div>
+                    <span class="heading-icon pink-icon"><i class="fa-solid fa-clock-rotate-left"></i></span>
+                </div>
+
+                <div class="filters">
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input id="expense-search" type="search"
+                               placeholder="Search expenses...">
+                    </div>
+
+                    <select id="filter-category" aria-label="Filter by category">
+                        <option value="">All categories</option>
+                        <option value="Transport">Transport</option>
+                        <option value="Packaging">Packaging</option>
+                        <option value="Communication">Airtime & internet</option>
+                        <option value="Labour">Labour</option>
+                </div>
+
+                <div class="history-summary">
+                    <span>Filtered spending</span>
+                    <strong id="filtered-total">UGX 0</strong>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Expense</th>
+                                <th>Category</th>
+                                <th>Amount</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="expense-list">
+                            <tr>
+                                <td colspan="5" class="empty-cell">Loading expenses...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="mobile-expense-list" id="mobile-expense-list"></div>
+
+                <div class="empty-state" id="empty-state" hidden>
+                    <span><i class="fa-solid fa-receipt"></i></span>
+                    <h3>No expenses found</h3>
+                    <p>Add an expense or change your search filters.</p>
+                </div>
+            </section>
+        </section>
+
+        <footer class="page-footer">
+            <span><i class="fa-solid fa-gem"></i> CRUZ HEIST GRAPHICS LAB</span>
+            <p>Every shilling counts. Keep building your dream. 💜</p>
+        </footer>
+
+    </main>
+</div>
+
+<script type="module" src="../js/expenses.js"></script>
+</body>
+</html>

@@ -1,0 +1,340 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#7138a6">
+    <title>Profit Analysis | Cruz Heist Graphics Lab</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/profits.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="app-shell">
+
+    <header class="topbar">
+        <a class="brand" href="dashboard.html">
+            <span class="brand-icon"><i class="fa-solid fa-gem"></i></span>
+            <span>
+                <strong>Cruz Heist</strong>
+                <small>GRAPHICS LAB</small>
+            </span>
+        </a>
+
+        <div class="top-actions">
+            <span class="sync-status" id="sync-status">
+                <i class="fa-solid fa-circle-notch fa-spin"></i> Connecting
+            </span>
+            <button class="logout-btn" id="logout-btn" type="button">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="page-content">
+        <a class="back-link" href="dashboard.html">
+            <i class="fa-solid fa-arrow-left"></i> Back to dashboard
+        </a>
+
+        <section class="hero">
+            <div class="hero-copy">
+                <span class="eyebrow"><i class="fa-solid fa-wand-magic-sparkles"></i> YOUR BUSINESS, AT A GLANCE</span>
+                <h1>Profit <span>Analysis.</span></h1>
+                <p>Understand your sales, expenses, profits and business growth using your actual records.</p>
+                <div class="hero-pills">
+                    <span><i class="fa-solid fa-cloud"></i> Live Firebase data</span>
+                    <span><i class="fa-solid fa-chart-line"></i> Financial insights</span>
+                </div>
+            </div>
+            <div class="hero-art"><i class="fa-solid fa-chart-pie"></i></div>
+        </section>
+
+        <div class="notice" id="report-message" role="status" hidden></div>
+
+        <section class="filter-panel">
+            <div class="filter-title">
+                <span class="filter-icon"><i class="fa-solid fa-calendar-days"></i></span>
+                <div>
+                    <h2>Report period</h2>
+                    <p>Choose the dates you want to analyse.</p>
+                </div>
+            </div>
+
+            <div class="filter-controls">
+                <select id="date-preset" aria-label="Choose report period">
+                    <option value="month">This month</option>
+                    <option value="today">Today</option>
+                    <option value="week">This week</option>
+                    <option value="last30">Last 30 days</option>
+                    <option value="year">This year</option>
+                    <option value="all">All time</option>
+                    <option value="custom">Custom range</option>
+                </select>
+
+                <div class="date-inputs">
+                    <label>
+                        <span>From</span>
+                        <input type="date" id="date-from">
+                    </label>
+                    <label>
+                        <span>To</span>
+                        <input type="date" id="date-to">
+                    </label>
+                </div>
+
+                <button class="apply-btn" id="apply-filter" type="button">
+                    <i class="fa-solid fa-filter"></i> Apply
+                </button>
+                <button class="export-btn" id="export-btn" type="button">
+                    <i class="fa-solid fa-file-csv"></i> Export CSV
+                </button>
+            </div>
+            <p class="period-label" id="period-label">Loading report period...</p>
+        </section>
+
+        <section class="metrics-grid">
+            <article class="metric-card revenue">
+                <div class="metric-top">
+                    <span>Total revenue</span>
+                    <span class="metric-icon"><i class="fa-solid fa-sack-dollar"></i></span>
+                </div>
+                <h2 id="metric-sales">UGX 0</h2>
+                <p><i class="fa-solid fa-chart-line"></i> <span id="metric-sales-count">0 sales</span></p>
+            </article>
+
+            <article class="metric-card cost">
+                <div class="metric-top">
+                    <span>Product costs</span>
+                    <span class="metric-icon"><i class="fa-solid fa-boxes-stacked"></i></span>
+                </div>
+                <h2 id="metric-costs">UGX 0</h2>
+                <p>Buying cost of products sold</p>
+            </article>
+
+            <article class="metric-card gross">
+                <div class="metric-top">
+                    <span>Gross profit</span>
+                    <span class="metric-icon"><i class="fa-solid fa-arrow-trend-up"></i></span>
+                </div>
+                <h2 id="metric-gross">UGX 0</h2>
+                <p>Revenue minus product costs</p>
+            </article>
+
+            <article class="metric-card expense">
+                <div class="metric-top">
+                    <span>Business expenses</span>
+                    <span class="metric-icon"><i class="fa-solid fa-receipt"></i></span>
+                </div>
+                <h2 id="metric-expenses">UGX 0</h2>
+                <p><span id="metric-expense-count">0 expense records</span></p>
+            </article>
+
+            <article class="metric-card net">
+                <div class="metric-top">
+                    <span>Net profit</span>
+                    <span class="metric-icon"><i class="fa-solid fa-gem"></i></span>
+                </div>
+                <h2 id="metric-profit">UGX 0</h2>
+                <p>Gross profit minus expenses</p>
+            </article>
+
+            <article class="metric-card collected">
+                <div class="metric-top">
+                    <span>Money collected</span>
+                    <span class="metric-icon"><i class="fa-solid fa-money-bill-transfer"></i></span>
+                </div>
+                <h2 id="metric-collected">UGX 0</h2>
+                <p>Payments recorded on selected sales</p>
+            </article>
+
+            <article class="metric-card debts">
+                <div class="metric-top">
+                    <span>Sales outstanding</span>
+                    <span class="metric-icon"><i class="fa-solid fa-hourglass-half"></i></span>
+                </div>
+                <h2 id="metric-debts">UGX 0</h2>
+                <p id="metric-debt-count">Unpaid sales balances</p>
+            </article>
+
+            <article class="metric-card margin">
+                <div class="metric-top">
+                    <span>Net profit margin</span>
+                    <span class="metric-icon"><i class="fa-solid fa-percent"></i></span>
+                </div>
+                <h2 id="metric-margin">0%</h2>
+                <p>Net profit as a share of revenue</p>
+            </article>
+        </section>
+
+        <section class="chart-grid">
+            <article class="panel chart-panel chart-wide">
+                <div class="panel-heading">
+                    <div>
+                        <span class="section-kicker">FINANCIAL PERFORMANCE</span>
+                        <h2>Revenue vs expenses</h2>
+                        <p>Compare sales revenue, product costs and expenses by month.</p>
+                    </div>
+                    <span class="panel-icon purple-icon"><i class="fa-solid fa-chart-column"></i></span>
+                </div>
+                <div class="chart-container"><canvas id="performance-chart"></canvas></div>
+            </article>
+
+            <article class="panel chart-panel">
+                <div class="panel-heading">
+                    <div>
+                        <span class="section-kicker">PROFIT TREND</span>
+                        <h2>Profit over time</h2>
+                        <p>See how gross and net profit change.</p>
+                    </div>
+                    <span class="panel-icon green-icon"><i class="fa-solid fa-chart-line"></i></span>
+                </div>
+                <div class="chart-container"><canvas id="profit-chart"></canvas></div>
+            </article>
+
+            <article class="panel chart-panel">
+                <div class="panel-heading">
+                    <div>
+                        <span class="section-kicker">SPENDING HABITS</span>
+                        <h2>Expense categories</h2>
+                        <p>Where your business money goes.</p>
+                    </div>
+                    <span class="panel-icon pink-icon"><i class="fa-solid fa-chart-pie"></i></span>
+                </div>
+                <div class="chart-container doughnut-container"><canvas id="expense-chart"></canvas></div>
+                <div class="chart-legend" id="expense-legend"></div>
+            </article>
+
+            <article class="panel chart-panel chart-wide">
+                <div class="panel-heading">
+                    <div>
+                        <span class="section-kicker">PRODUCT PERFORMANCE</span>
+                        <h2>Profit by product</h2>
+                        <p>Compare products using the cost saved on each sale.</p>
+                    </div>
+                    <span class="panel-icon gold-icon"><i class="fa-solid fa-trophy"></i></span>
+                </div>
+                <div class="chart-container product-chart-container"><canvas id="product-chart"></canvas></div>
+            </article>
+        </section>
+
+        <section class="panel records-panel">
+            <div class="panel-heading records-heading">
+                <div>
+                    <span class="section-kicker">MONEY SPENT</span>
+                    <h2>Expense records</h2>
+                    <p>Real expenses recorded for the selected date range.</p>
+                </div>
+                <span class="panel-icon pink-icon"><i class="fa-solid fa-file-invoice-dollar"></i></span>
+            </div>
+
+            <div class="table-scroll">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Category</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody id="expense-history-body">
+                        <tr><td colspan="4" class="empty-cell">Loading expense records...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="record-footer">
+                <span id="expense-history-count">0 records</span>
+                <strong id="expense-period-total">UGX 0</strong>
+            </div>
+        </section>
+
+        <section class="panel records-panel">
+            <div class="panel-heading records-heading">
+                <div>
+                    <span class="section-kicker">SALES BREAKDOWN</span>
+                    <h2>Product profitability</h2>
+                    <p>Revenue, product cost and profit from each product.</p>
+                </div>
+                <span class="panel-icon purple-icon"><i class="fa-solid fa-ranking-star"></i></span>
+            </div>
+
+            <div class="table-scroll">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Units sold</th>
+                            <th>Revenue</th>
+                            <th>Product cost</th>
+                            <th>Gross profit</th>
+                        </tr>
+                    </thead>
+                    <tbody id="product-report-body">
+                        <tr><td colspan="5" class="empty-cell">Loading product report...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="bottom-grid">
+            <article class="panel cash-panel">
+                <div class="panel-heading">
+                    <div>
+                        <span class="section-kicker">COLLECTIONS</span>
+                        <h2>Sales balances</h2>
+                    </div>
+                    <span class="panel-icon gold-icon"><i class="fa-solid fa-wallet"></i></span>
+                </div>
+                <div class="cash-row">
+                    <span>Total value of sales</span>
+                    <strong id="cash-total">UGX 0</strong>
+                </div>
+                <div class="cash-row">
+                    <span>Money collected</span>
+                    <strong id="cash-sales">UGX 0</strong>
+                </div>
+                <div class="cash-row">
+                    <span>Sales outstanding</span>
+                    <strong id="unpaid-sales">UGX 0</strong>
+                </div>
+                <div class="cash-row">
+                    <span>Manual debts outstanding</span>
+                    <strong id="unpaid-manual">UGX 0</strong>
+                </div>
+                <p class="small-note">Outstanding balances are shown separately; they are not subtracted from profit again.</p>
+            </article>
+
+            <article class="panel insight-panel">
+                <div class="panel-heading">
+                    <div>
+                        <span class="section-kicker">BUSINESS INSIGHT</span>
+                        <h2>Your report summary</h2>
+                    </div>
+                    <span class="panel-icon green-icon"><i class="fa-solid fa-lightbulb"></i></span>
+                </div>
+                <p id="report-insight">Your financial summary will appear here when your records load.</p>
+                <div class="insight-stat">
+                    <span>Profit per UGX 100 in sales</span>
+                    <strong id="profit-per-100">UGX 0</strong>
+                </div>
+            </article>
+        </section>
+
+        <footer class="page-footer">
+            <span><i class="fa-solid fa-gem"></i> CRUZ HEIST GRAPHICS LAB</span>
+            <p>Dream big. Track every shilling. Build with purpose. 💜</p>
+        </footer>
+    </main>
+</div>
+
+<script type="module" src="../js/profits.js"></script>
+</body>
+</html>
