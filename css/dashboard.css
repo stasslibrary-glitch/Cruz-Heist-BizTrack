@@ -1033,3 +1033,55 @@ select {
         min-width: 0;
     }
 }
+.currency-switcher {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin: 16px 0;
+    padding: 14px;
+    border: 1px solid rgba(190, 150, 255, 0.3);
+    border-radius: 16px;
+    background: linear-gradient(
+        135deg,
+        rgba(100, 55, 150, 0.16),
+        rgba(230, 170, 210, 0.12)
+    );
+}
+
+.currency-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #8b6ab5;
+}
+
+.currency-toggle {
+    display: flex;
+    gap: 5px;
+    padding: 4px;
+    border-radius: 12px;
+    background: rgba(90, 50, 120, 0.1);
+}
+
+.currency-btn {
+    min-width: 76px;
+    padding: 9px 16px;
+    border: none;
+    border-radius: 9px;
+    background: transparent;
+    color: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.currency-btn.active {
+    background: linear-gradient(135deg, #673ab7, #a855a8);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(103, 58, 183, 0.25);
+}
+
+#exchangeRate {
+    font-size: 11px;
+    opacity: 0.75;
+}

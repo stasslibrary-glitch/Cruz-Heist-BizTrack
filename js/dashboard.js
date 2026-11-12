@@ -2,6 +2,7 @@
 /* =========================================================
    CRUZ HEIST GRAPHICS LAB — LIVE DASHBOARD
    Firebase Authentication + Cloud Firestore
+   UGX / USD Currency Switching
    ========================================================= */
 
 import { auth, db } from "./firebase.js";
@@ -16,6 +17,15 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
 // ---------------------------------------------------------
+// CONFIGURATION
+// ---------------------------------------------------------
+
+const EXCHANGE_RATE = 4288.44;
+const DEFAULT_CURRENCY = "UGX";
+
+let displayCurrency = localStorage.getItem("ch_display_currency") || DEFAULT_CURRENCY;
+
+// ---------------------------------------------------------
 // DOM HELPERS
 // ---------------------------------------------------------
 
@@ -26,11 +36,6 @@ function setText(selector, value) {
   if (element) element.textContent = value;
 }
 
-function setHTML(selector, value) {
-  const element = $(selector);
-  if (element) element.innerHTML = value;
-}
-
 function escapeHTML(value) {
   return String(value ?? "").replace(/[&<>"']/g, (character) => ({
     "&": "&amp;",
@@ -39,6 +44,71 @@ function escapeHTML(value) {
     '"': "&quot;",
     "'": "&#039;"
   })[character]);
+}
+
+// ---------------------------------------------------------
+// CURRENCY SYSTEM
+// ---------------------------------------------------------
+
+function formatMoney(value) {
+  const amount = Number(value) || 0;
+
+  if (displayCurrency === "USD") {
+    return "USD " + new Intl.NumberFormat("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(amount / EXCHANGE_RATE);
+  }
+
+  return "UGX " + new Intl.NumberFormat("en-UG", {
+    maximumFractionDigits: 0
+  }).format(amount);
+}
+
+function updateCurrencyButtons() {
+  const ugx = $("#currencyUGX");
+  const usd = $("#currencyUSD");
+
+  if (ugx) {
+    ugx.classList.toggle("active", displayCurrency === "UGX");
+    ugx.setAttribute("aria-pressed", String(displayCurrency === "UGX"));
+  }
+
+  if (usd) {
+    usd.classList.toggle("active", displayCurrency === "USD");
+    usd.setAttribute("aria-pressed", String(displayCurrency === "USD"));
+  }
+
+  setText(
+    "#exchangeRate",
+    `1 USD = UGX ${new Intl.NumberFormat("en-UG", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(EXCHANGE_RATE)}`
+  );
+}
+
+function changeCurrency(currency) {
+  if (!["UGX", "USD"].includes(currency)) return;
+
+  displayCurrency = currency;
+
+  localStorage.setItem("ch_display_currency", currency);
+
+  updateCurrencyButtons();
+  renderDashboard();
+}
+
+function initializeCurrencySwitcher() {
+  $("#currencyUGX")?.addEventListener("click", () => {
+    changeCurrency("UGX");
+  });
+
+  $("#currencyUSD")?.addEventListener("click", () => {
+    changeCurrency("USD");
+  });
+
+  updateCurrencyButtons();
 }
 
 // ---------------------------------------------------------
@@ -56,6 +126,7 @@ let customers = [];
 let customersCollectionAvailable = false;
 
 const listeners = [];
+
 const loaded = {
   products: false,
   sales: false,
@@ -67,16 +138,8 @@ let listenerErrors = [];
 let currentPeriod = "month";
 
 // ---------------------------------------------------------
-// FORMATTING
+// DATE AND NUMBER HELPERS
 // ---------------------------------------------------------
-
-function formatMoney(value) {
-  const amount = Number(value);
-
-  return "UGX " + new Intl.NumberFormat("en-UG", {
-    maximumFractionDigits: 0
-  }).format(Number.isFinite(amount) ? amount : 0);
-}
 
 function getDate(value) {
   if (!value) return null;
@@ -86,26 +149,19 @@ function getDate(value) {
     return Number.isNaN(date.getTime()) ? null : date;
   }
 
-  if (
-    typeof value === "object" &&
-    typeof value.seconds === "number"
-  ) {
+  if (typeof value === "object" && typeof value.seconds === "number") {
     return new Date(value.seconds * 1000);
   }
 
-  // Parse YYYY-MM-DD as a local calendar date.
   if (
     typeof value === "string" &&
     /^\d{4}-\d{2}-\d{2}$/.test(value)
   ) {
     const [year, month, day] = value.split("-").map(Number);
-    const date = new Date(year, month - 1, day);
-
-    return Number.isNaN(date.getTime()) ? null : date;
+    return new Date(year, month - 1, day);
   }
 
   const date = new Date(value);
-
   return Number.isNaN(date.getTime()) ? null : date;
 }
 
@@ -151,7 +207,6 @@ function amount(...values) {
 
 // ---------------------------------------------------------
 // FINANCIAL FIELD HELPERS
-// These match the fields in your sales.js and debts.js.
 // ---------------------------------------------------------
 
 function saleTotal(sale) {
@@ -163,12 +218,10 @@ function salePaid(sale) {
 }
 
 function saleBalance(sale) {
-  // totalAmount - amountPaid is authoritative for this app.
   return Math.max(0, saleTotal(sale) - salePaid(sale));
 }
 
 function saleCost(sale) {
-  // Your sales.js saves totalCost as a buying-cost snapshot.
   if (sale.totalCost !== undefined && sale.totalCost !== null) {
     return Math.max(0, amount(sale.totalCost));
   }
@@ -180,7 +233,10 @@ function saleCost(sale) {
     return Math.max(0, amount(sale.costOfGoodsSold));
   }
 
-  return Math.max(0, amount(sale.unitBuyingCost) * amount(sale.quantity, 1));
+  return Math.max(
+    0,
+    amount(sale.unitBuyingCost) * amount(sale.quantity, 1)
+  );
 }
 
 function manualDebtTotal(debt) {
@@ -208,6 +264,7 @@ function expenseAmount(expense) {
 
 function getPeriodStart(period) {
   const now = new Date();
+
   const start = new Date(
     now.getFullYear(),
     now.getMonth(),
@@ -255,8 +312,6 @@ function recordsInPeriod(records, period, dateGetter = getRecordDate) {
 
 // ---------------------------------------------------------
 // CUSTOMER COUNT
-// Prefer the registered customers collection when available.
-// Otherwise count distinct named customers in sales/debts.
 // ---------------------------------------------------------
 
 function getCustomerCount() {
@@ -283,8 +338,6 @@ function getCustomerCount() {
 
 // ---------------------------------------------------------
 // DEBT ACCOUNTS
-// Manual debts and unpaid credit sales are separate accounts.
-// Each account is included once in this list.
 // ---------------------------------------------------------
 
 function getOutstandingDebtAccounts(period = currentPeriod) {
@@ -304,7 +357,11 @@ function getOutstandingDebtAccounts(period = currentPeriod) {
   const manualDebtAccounts = recordsInPeriod(
     debts,
     period,
-    (debt) => debt.debtDate ?? debt.saleDate ?? debt.date ?? debt.createdAt
+    (debt) =>
+      debt.debtDate ??
+      debt.saleDate ??
+      debt.date ??
+      debt.createdAt
   )
     .filter((debt) => manualDebtBalance(debt) > 0)
     .map((debt) => ({
@@ -315,7 +372,11 @@ function getOutstandingDebtAccounts(period = currentPeriod) {
       totalAmount: manualDebtTotal(debt),
       amountPaid: manualDebtPaid(debt),
       balance: manualDebtBalance(debt),
-      date: debt.debtDate ?? debt.saleDate ?? debt.date ?? debt.createdAt
+      date:
+        debt.debtDate ??
+        debt.saleDate ??
+        debt.date ??
+        debt.createdAt
     }));
 
   return [...saleDebts, ...manualDebtAccounts]
@@ -328,25 +389,23 @@ function getOutstandingDebtAccounts(period = currentPeriod) {
 
 function calculateSummary() {
   const periodSales = recordsInPeriod(sales, currentPeriod);
+
   const periodDebts = recordsInPeriod(
     debts,
     currentPeriod,
-    (debt) => debt.debtDate ?? debt.saleDate ?? debt.date ?? debt.createdAt
+    (debt) =>
+      debt.debtDate ??
+      debt.saleDate ??
+      debt.date ??
+      debt.createdAt
   );
+
   const periodExpenses = recordsInPeriod(expenses, currentPeriod);
 
   const totalSales = periodSales.reduce(
     (sum, sale) => sum + saleTotal(sale), 0
   );
 
-  /*
-    Amounts paid are stored on the original account and updated
-    by debts.js. Do not add the payment subcollection again:
-    that would double-count collections.
-
-    This card is grouped by the original account's date.
-    It is not a payment-date cashbook.
-  */
   const totalReceivedFromSales = periodSales.reduce(
     (sum, sale) => sum + salePaid(sale), 0
   );
@@ -385,7 +444,7 @@ function calculateSummary() {
 }
 
 // ---------------------------------------------------------
-// RECENT SALES TABLE
+// RECENT SALES
 // ---------------------------------------------------------
 
 function getSaleStatus(sale) {
@@ -463,6 +522,7 @@ function renderRecentSales(periodSales) {
 
     const statusCell = document.createElement("td");
     const badge = document.createElement("span");
+
     badge.className = `status-badge ${status.className}`;
     badge.textContent = status.label;
 
@@ -550,6 +610,7 @@ function renderListenerStatus() {
 
 function renderDashboard() {
   const summary = calculateSummary();
+
   const debtAccounts = getOutstandingDebtAccounts(currentPeriod);
 
   setText("#total-sales", formatMoney(summary.totalSales));
@@ -560,8 +621,15 @@ function renderDashboard() {
   setText("#total-cost", formatMoney(summary.totalCost));
   setText("#total-expenses", formatMoney(summary.totalExpenses));
 
-  setText("#total-customers", getCustomerCount().toLocaleString("en-UG"));
-  setText("#total-products", products.length.toLocaleString("en-UG"));
+  setText(
+    "#total-customers",
+    getCustomerCount().toLocaleString("en-UG")
+  );
+
+  setText(
+    "#total-products",
+    products.length.toLocaleString("en-UG")
+  );
 
   setText("#debt-summary-total", formatMoney(summary.totalDebts));
 
@@ -571,7 +639,7 @@ function renderDashboard() {
 }
 
 // ---------------------------------------------------------
-// REAL-TIME FIRESTORE LISTENERS
+// FIRESTORE LISTENERS
 // ---------------------------------------------------------
 
 function listenToCollection(collectionName, onData, onError, loadedKey) {
@@ -595,7 +663,10 @@ function listenToCollection(collectionName, onData, onError, loadedKey) {
       renderDashboard();
     },
     (error) => {
-      console.error(`Dashboard ${collectionName} listener failed:`, error);
+      console.error(
+        `Dashboard ${collectionName} listener failed:`,
+        error
+      );
 
       listenerErrors = listenerErrors.filter(
         (item) => item.collection !== collectionName
@@ -636,6 +707,7 @@ function resetDashboardData() {
   debts = [];
   expenses = [];
   customers = [];
+
   customersCollectionAvailable = false;
   listenerErrors = [];
 
@@ -645,51 +717,22 @@ function resetDashboardData() {
 }
 
 function startDashboardListeners() {
-  listenToCollection(
-    "products",
-    (records) => {
-      products = records;
-    },
-    null,
-    "products"
-  );
+  listenToCollection("products", (records) => {
+    products = records;
+  }, null, "products");
 
-  listenToCollection(
-    "sales",
-    (records) => {
-      sales = records;
-    },
-    null,
-    "sales"
-  );
+  listenToCollection("sales", (records) => {
+    sales = records;
+  }, null, "sales");
 
-  listenToCollection(
-    "debts",
-    (records) => {
-      debts = records;
-    },
-    null,
-    "debts"
-  );
+  listenToCollection("debts", (records) => {
+    debts = records;
+  }, null, "debts");
 
-  listenToCollection(
-    "expenses",
-    (records) => {
-      expenses = records;
-    },
-    null,
-    "expenses"
-  );
+  listenToCollection("expenses", (records) => {
+    expenses = records;
+  }, null, "expenses");
 
-  /*
-    Optional registered-customer collection.
-
-    If your customer page uses users/{uid}/customers,
-    this listener counts those registered customers.
-    If the collection or its security rule is not ready,
-    the dashboard falls back to distinct customer names
-    from sales and debts.
-  */
   const customerRef = collection(
     db,
     "users",
@@ -716,6 +759,7 @@ function startDashboardListeners() {
 
       customersCollectionAvailable = false;
       customers = [];
+
       renderDashboard();
     }
   );
@@ -724,7 +768,7 @@ function startDashboardListeners() {
 }
 
 // ---------------------------------------------------------
-// DATE / YEAR / FILTER / REFRESH
+// DATE AND SIDEBAR
 // ---------------------------------------------------------
 
 function renderCurrentDate() {
@@ -776,9 +820,16 @@ function initializeSidebar() {
   });
 }
 
+// ---------------------------------------------------------
+// INITIALIZE DASHBOARD
+// ---------------------------------------------------------
+
 function initializeDashboard() {
   renderCurrentDate();
   initializeSidebar();
+
+  // Initialize currency buttons immediately.
+  initializeCurrencySwitcher();
 
   const periodFilter = $("#period-filter");
 
@@ -796,7 +847,6 @@ function initializeDashboard() {
     renderDashboard();
   });
 
-  // Correct the renamed dashboard page's active navigation link.
   document.querySelectorAll(".sidebar-nav .nav-link").forEach((link) => {
     const href = link.getAttribute("href");
 
@@ -816,15 +866,22 @@ function initializeDashboard() {
     }
 
     currentUser = user;
+
     startDashboardListeners();
     renderDashboard();
   });
 }
 
+// ---------------------------------------------------------
+// START
+// ---------------------------------------------------------
+
 if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initializeDashboard, {
-    once: true
-  });
+  document.addEventListener(
+    "DOMContentLoaded",
+    initializeDashboard,
+    { once: true }
+  );
 } else {
   initializeDashboard();
 }
